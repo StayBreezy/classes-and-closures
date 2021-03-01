@@ -1,4 +1,4 @@
-/* 
+/*
   Once you complete a problem, refresh ./closures.html in your browser and check to see if the problem's test(s) are passing.
   Passed tests will be indicated by a green circle.
   Failed tests will be indicated by a red X.
@@ -16,20 +16,20 @@ function outer() {
   };
 }
 // Do not edit the code above.
-  
-/* 
+
+/*
   Above you're given a function that returns another function which has a closure over the name variable.
   Invoke outer saving the return value into another variable called 'inner'.
 */
-  
-// Code Here
 
+// Code Here
+let inner = outer();
 
 
 //Once you do that, invoke inner.
 
 //Code Here
-
+inner();
 
 
 ////////// PROBLEM 2 //////////
@@ -46,13 +46,14 @@ function callFriend(name) {
 /*
   Above you're given a callFriend function that returns the dial function.
   Store the result of invoking callFriend in a variable named callJake.
-  
-  When callJake is invoked with '435-555-9248', it returns 'Calling Jake at 435-555-9248' 
+
+  When callJake is invoked with '435-555-9248', it returns 'Calling Jake at 435-555-9248'
   (HINT: You will need to pass in arguments to both function invocations)
 */
 
 //Code Here
-
+let callJake = callFriend('Jake')
+callJake('435-555-9248');
 
 
 ////////// PROBLEM 3 //////////
@@ -62,18 +63,24 @@ function callFriend(name) {
 */
 
 //Code Here
+function makeCounter(){
+  let count = 0;
+ return function(){
+   return ++count;
+  }
+}
+
+
+// Uncomment this once you make your function
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
-//Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
-
-
-
+// console.log(count())
 ////////// PROBLEM 4 //////////
 
 /*
@@ -81,38 +88,43 @@ function callFriend(name) {
   The first function is called inc, this function is responsible for incrementing the value once and returning the updated value.
   The second function is called dec, this function is responsible for decrementing the value by one and returning the updated value.
   You will need to use the module pattern to achieve this.
-  Information on the module pattern available here: 
+  Information on the module pattern available here:
   http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
 */
 
 function counterFactory(value) {
-  // Code here.
 
   return {
-
+    inc: function(){
+      return ++value;
+    },
+    dec: function(){
+      return --value;
+    }
   };
 }
 
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
-
-
+// console.log(counter.inc())
 ////////// PROBLEM 5 //////////
 
 /*
   Inside the motivation function create another function called message that will return the welcome text with the firstname and lastname.
-  The final message should say "You're doing awesome, keep it up firstname lastname." 
+  The final message should say "You're doing awesome, keep it up firstname lastname."
   (Hint: don't forget to have a space between the firstname and lastname and a period at the end of the sentence.)
 */
 
 function motivation( firstname, lastname ) {
   var welcomeText = "You're doing awesome, keep it up";
 
-  // code message function here.
+  return function message(){
+    return `${welcomeText} ${firstname} ${lastname}.`
+  }
 
   //Uncommment this to return the value of your message function
   //return message;
@@ -144,6 +156,9 @@ var module = (function() {
   // outside our lexical scope
   return {
     // Code here.
+    publicMethod: function(){
+      return privateMethod()
+    }
   };
 })();
 
@@ -163,13 +178,19 @@ function secretNumber() {
 
   return {
     // Code here
+    addToSecret: function(num){
+      return secret += num;
+    },
+    takeAwayFromSecret: function(num){
+      return secret -= num;
+    }
   };
 }
 
 
 
 ////////// PROBLEM 8 //////////
-  
+
 /*
   Here we have a for loop that will iterate as long as i is less than or equal to 5.
   What we need to do is console.log(i) so that it logs like so:
@@ -182,15 +203,29 @@ function secretNumber() {
 
   However, because each call to console.log occurs after the loop has finished, the value of i has changed before the console.log executes.
   We'll need to use a closure to preserve a reference to i at the time of execution.
-  
+
   Fix the code below to log the desired output.
 */
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
+    (function(ind){
     setTimeout(function() {
-      console.log(i);
-    }, i * 1000);
-  }
+      console.log(ind);
+    }, ind * 1000);
+  }(i));
+  };
+}
+
+timeOutCounter();
+function timeOutCounter() {
+  for (var i = 0; i <= 5; i++) {
+    function closure(ind){
+    setTimeout(function() {
+      console.log(ind);
+    }, ind * 1000);
+  };
+  closure(i)
+  };
 }
 timeOutCounter();

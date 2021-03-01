@@ -1,4 +1,4 @@
-/* 
+/*
   Once you complete a problem, refresh ./classes.html in your browser and check to see if the problem's test(s) are passing.
   Passed tests will be indicated by a green circle.
   Failed tests will be indicated by a red X.
@@ -30,7 +30,20 @@
 */
 
 //Code Here
+class Employee {
+  constructor(first_name, last_name, email, age){
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
+    this.age = age;
+  }
 
+  makeWidget(){
+    return `${this.first_name} ${this.last_name} Widget`
+  }
+
+
+}
 
 ////////// PROBLEM 2 //////////
 
@@ -46,9 +59,20 @@
 
   Call your new class Manager
 */
-
 //Code Here
+class Manager extends Employee {
+   constructor(first_name, last_name, email, age){
+    super(first_name, last_name, email, age)
+    this.reports = [];
+   }
 
+   hire(employee){
+    this.reports.push(employee)
+   }
+   fire(index){
+     this.reports.splice(index, 1);
+   }
+}
 
 ////////// PROBLEM 3 //////////
 
@@ -72,7 +96,31 @@
 */
 
 //Code Here
-
+class ProgressiveManager extends Manager {
+  constructor(first_name, last_name, email, age, reports){
+    super(first_name, last_name, email, age, reports);
+    this.title = 'Not a manager';
+    this.bonus = 0;
+  }
+  fire(index){
+    super.fire();
+    this.bonus += 100;
+  }
+  hire(employee){
+    super.hire();
+    if (this.reports.length > 0 && this.reports.length < 4){
+      this.title = 'Barely Manager';
+    }else if (this.reports.length > 3 && this.reports.length < 11){
+      this.title = 'Mostly Manager';
+    }else if (this.reports.length > 10 && this.reports.length < 51){
+      this.title = 'Manager';
+    }else if (this.reports.length > 50 && this.reports.length < 101){
+      this.title = 'Manager Plus';
+    }else if (this.reports.length > 100){
+      this.title = 'Bestest Manager';
+    }
+  }
+}
 
 
 ////////// PROBLEM 4 - Black Diamond //////////
@@ -99,5 +147,25 @@
 */
 
 //Code Here
+class Machine {
+  constructor(){
+    this.widgets_made_count = 0;
+    this.wear_and_tear_count = 0;
+    this.needs_reboot = false;
+  }
 
+  makeWidgets(num){
+    this.widgets_made_count += num;
+    this.wear_and_tear_count = Math.floor(this.widgets_made_count / 50);
+  }
+  fixMachine(){
+    this.needs_reboot = true;
+  }
+  reboot(){
+    return () => {
+      this.wear_and_tear_count -= 10;
+      this.needs_reboot = false;
+    }
+  }
 
+}
