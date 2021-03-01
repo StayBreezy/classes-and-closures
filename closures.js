@@ -216,16 +216,3 @@ function timeOutCounter() {
   }(i));
   };
 }
-
-timeOutCounter();
-function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
-    function closure(ind){
-    setTimeout(function() {
-      console.log(ind);
-    }, ind * 1000);
-  };
-  closure(i)
-  };
-}
-timeOutCounter();
